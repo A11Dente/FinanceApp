@@ -8,7 +8,8 @@ internal data class MainUiState(
 )
 
 internal enum class TransactionType {
-    DEPOSIT, WITHDRAW
+    DEPOSIT,
+    WITHDRAW
     // Какие два типа нужны кнопкам?
 }
 
