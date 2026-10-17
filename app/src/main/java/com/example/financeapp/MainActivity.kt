@@ -26,6 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+private const val AMOUNT = 100
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,14 +75,14 @@ private fun FinanceAppScreen() {
                 style = MaterialTheme.typography.headlineSmall,
             )
             Button(onClick = {
-                val transaction = Transaction(100, TransactionType.DEPOSIT)
+                val transaction = Transaction(AMOUNT, TransactionType.DEPOSIT)
                 state = reduce(state, MainUiEvent.AddTransaction(transaction))
 
             }) {
                 Text(text = stringResource(R.string.add_income_button))
             }
             Button(onClick = {
-                val transaction = Transaction(100, TransactionType.WITHDRAW)
+                val transaction = Transaction(AMOUNT, TransactionType.WITHDRAW)
                 state = reduce(state, MainUiEvent.AddTransaction(transaction))
             }) {
                 Text(text = stringResource(R.string.add_expense_button))
