@@ -19,9 +19,7 @@ internal data class Transaction(
 )
 
 internal sealed interface MainUiEvent {
-    data class AddTransaction(
-        val transaction: Transaction
-    ) : MainUiEvent
+    data class AddTransaction(val transaction: Transaction) : MainUiEvent
     // Одно событие должно переносить созданную транзакцию
 }
 
@@ -32,10 +30,7 @@ internal fun reduce(
     is MainUiEvent.AddTransaction -> {
         val balancenew = when (event.transaction.type) {
             TransactionType.DEPOSIT -> state.balance + event.transaction.amount
-            TransactionType.WITHDRAW -> state.balance - event.transaction.amount
-
-        }
-        state.copy(count = state.count + 1, balance = balancenew)
-    }
+            TransactionType.WITHDRAW -> state.balance - event.transaction.amount}
+        state.copy(count = state.count + 1, balance = balancenew)}
     // Получите данные события и верните новое состояние
 }
