@@ -9,7 +9,7 @@ internal data class MainUiState(
 
 internal enum class TransactionType {
     DEPOSIT,
-    WITHDRAW
+    WITHDRAW,
     // Какие два типа нужны кнопкам?
 }
 
@@ -24,10 +24,8 @@ internal sealed interface MainUiEvent {
     // Одно событие должно переносить созданную транзакцию
 }
 
-internal fun reduce(
-    state: MainUiState,
-    event: MainUiEvent,): MainUiState = when (event) {
-    is MainUiEvent.AddTransaction ->{
+internal fun reduce(state: MainUiState, event: MainUiEvent): MainUiState = when (event) {
+    is MainUiEvent.AddTransaction -> {
         val balancenew = when (event.transaction.type) {
             TransactionType.DEPOSIT -> state.balance + event.transaction.amount
             TransactionType.WITHDRAW -> state.balance - event.transaction.amount
