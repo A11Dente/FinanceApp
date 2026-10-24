@@ -1,4 +1,4 @@
-package com.example.financeapp
+package com.example.financeapp.legacy
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -68,23 +68,35 @@ private fun FinanceAppScreen() {
         ) {
             Text(
                 text = stringResource(
-                    R.string.balance_summary,
+                    _root_ide_package_.com.example.financeapp.R.string.balance_summary,
                     state.balance,
                     state.count,
                 ),
                 style = MaterialTheme.typography.headlineSmall,
             )
             Button(onClick = {
-                val transaction = Transaction(AMOUNT, TransactionType.DEPOSIT)
-                state = reduce(state, MainUiEvent.AddTransaction(transaction))
+                val transaction = Transaction(
+                    AMOUNT,
+                    TransactionType.DEPOSIT
+                )
+                state = reduce(
+                    state,
+                    MainUiEvent.AddTransaction(transaction)
+                )
             }) {
-                Text(text = stringResource(R.string.add_income_button))
+                Text(text = stringResource(_root_ide_package_.com.example.financeapp.R.string.add_income_button))
             }
             Button(onClick = {
-                val transaction = Transaction(AMOUNT, TransactionType.WITHDRAW)
-                state = reduce(state, MainUiEvent.AddTransaction(transaction))
+                val transaction = Transaction(
+                    AMOUNT,
+                    TransactionType.WITHDRAW
+                )
+                state = reduce(
+                    state,
+                    MainUiEvent.AddTransaction(transaction)
+                )
             }) {
-                Text(text = stringResource(R.string.add_expense_button))
+                Text(text = stringResource(_root_ide_package_.com.example.financeapp.R.string.add_expense_button))
             }
         }
     }

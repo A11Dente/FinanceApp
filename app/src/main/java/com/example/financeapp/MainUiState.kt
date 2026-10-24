@@ -1,36 +1,29 @@
 package com.example.financeapp
 
-internal data class MainUiState(
-    val balance: Int = 0,
-    val count: Int = 0,
-    // Какое начальное значение у баланса?
-    // Как посчитать выполненные операции?
-)
+internal enum class TransactionType { INCOME, EXPENSE }
 
-internal enum class TransactionType {
-    DEPOSIT,
-    WITHDRAW,
-    // Какие два типа нужны кнопкам?
+internal enum class TransactionError {
+    INVALID_INPUT, AMOUNT_TOO_LARGE
 }
-
 internal data class Transaction(
-    val amount: Int = 0,
+    val amount: Int,
     val type: TransactionType,
-    // Какие два свойства полностью описывают операцию?
+    val description: String,
 )
-
+internal data class MainUiState(
+    val amount: String = "",
+    val description: String = "",
+    val type: TransactionType = TransactionType.EXPENSE,
+    val balance: Int = 0,
+    val transactionCount: Int = 0,
+    val transactions: List<Transaction> = emptyList(),
+    val error: TransactionError? = null,
+)
 internal sealed interface MainUiEvent {
+    data class AmountChanged(val value: String) : MainUiEvent
+    data class DescriptionChanged(val value: String) : MainUiEvent
+    data class TypeChanged(val type: TransactionType) : MainUiEvent
     data class AddTransaction(val transaction: Transaction) : MainUiEvent
-    // Одно событие должно переносить созданную транзакцию
-}
-
-internal fun reduce(state: MainUiState, event: MainUiEvent): MainUiState = when (event) {
-    is MainUiEvent.AddTransaction -> {
-        val balancenew = when (event.transaction.type) {
-            TransactionType.DEPOSIT -> state.balance + event.transaction.amount
-            TransactionType.WITHDRAW -> state.balance - event.transaction.amount
-        }
-        state.copy(count = state.count + 1, balance = balancenew)
-    }
-    // Получите данные события и верните новое состояние
+    data object InvalidTransaction : MainUiEvent
+    data object AmountTooLarge : MainUiEvent
 }
