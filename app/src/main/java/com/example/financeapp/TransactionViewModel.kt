@@ -12,13 +12,32 @@ internal class TransactionViewModel : ViewModel() {
     fun onEvent(event: MainUiEvent) {
         uiState = reduce(uiState, event)
     }
+
     fun addTransaction() {
         val description = uiState.description.trim()
         if (uiState.amount.isEmpty() || description.isEmpty()) {
             onEvent(MainUiEvent.InvalidTransaction)
             return
         }
-        // продолжение на следующем слайде
+
+        val amount = uiState.amount.toIntOrNull()
+        if (amount == null) {
+            onEvent(MainUiEvent.AmountTooLarge)
+            return
+        }
+        if (amount <= 0) {
+            onEvent(MainUiEvent.InvalidTransaction)
+            return
+        }
+
+        // --- ВСТАВЛЕННЫЙ ФРАГМЕНТ ИЗ ШАГА 24 ---
+        onEvent(MainUiEvent.AddTransaction(
+            Transaction(
+                amount = amount,
+                type = uiState.type,
+                description = description,
+            )
+        ))
     }
 
     private fun reduce(

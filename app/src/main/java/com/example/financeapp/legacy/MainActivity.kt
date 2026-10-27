@@ -25,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.financeapp.TransactionScreen
+
 
 private const val AMOUNT = 100
 
@@ -34,7 +36,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FinanceAppTheme {
-                FinanceAppScreen()
+                TransactionScreen()
             }
         }
     }
@@ -68,7 +70,7 @@ private fun FinanceAppScreen() {
         ) {
             Text(
                 text = stringResource(
-                    _root_ide_package_.com.example.financeapp.R.string.balance_summary,
+                    com.example.financeapp.R.string.balance_summary,
                     state.balance,
                     state.count,
                 ),
@@ -84,7 +86,7 @@ private fun FinanceAppScreen() {
                     MainUiEvent.AddTransaction(transaction)
                 )
             }) {
-                Text(text = stringResource(_root_ide_package_.com.example.financeapp.R.string.add_income_button))
+                Text(text = stringResource(com.example.financeapp.R.string.add_income_button))
             }
             Button(onClick = {
                 val transaction = Transaction(
@@ -96,7 +98,7 @@ private fun FinanceAppScreen() {
                     MainUiEvent.AddTransaction(transaction)
                 )
             }) {
-                Text(text = stringResource(_root_ide_package_.com.example.financeapp.R.string.add_expense_button))
+                Text(text = stringResource(com.example.financeapp.R.string.add_expense_button))
             }
         }
     }
