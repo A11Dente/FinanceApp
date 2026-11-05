@@ -27,7 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.financeapp.TransactionScreen
 
-
 private const val AMOUNT = 100
 
 class MainActivity : ComponentActivity() {
@@ -79,11 +78,11 @@ private fun FinanceAppScreen() {
             Button(onClick = {
                 val transaction = Transaction(
                     AMOUNT,
-                    TransactionType.DEPOSIT
+                    TransactionType.DEPOSIT,
                 )
                 state = reduce(
                     state,
-                    MainUiEvent.AddTransaction(transaction)
+                    MainUiEvent.AddTransaction(transaction),
                 )
             }) {
                 Text(text = stringResource(com.example.financeapp.R.string.add_income_button))
@@ -91,11 +90,11 @@ private fun FinanceAppScreen() {
             Button(onClick = {
                 val transaction = Transaction(
                     AMOUNT,
-                    TransactionType.WITHDRAW
+                    TransactionType.WITHDRAW,
                 )
                 state = reduce(
                     state,
-                    MainUiEvent.AddTransaction(transaction)
+                    MainUiEvent.AddTransaction(transaction),
                 )
             }) {
                 Text(text = stringResource(com.example.financeapp.R.string.add_expense_button))
