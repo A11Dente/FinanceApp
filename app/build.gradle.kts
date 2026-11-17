@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ksp)
-
 }
 
 detekt {
@@ -37,8 +36,8 @@ val openDetektReport by tasks.registering(Exec::class) {
 
     onlyIf("Detekt reported issues") {
         htmlFile.isFile &&
-            xmlFile.isFile &&
-            xmlFile.readText().contains("<error ")
+                xmlFile.isFile &&
+                xmlFile.readText().contains("<error ")
     }
 
     when {
@@ -93,6 +92,7 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(composeBom)
     implementation(libs.androidx.activity.compose)
