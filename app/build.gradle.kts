@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.ksp)
+
 }
 
 detekt {
@@ -89,6 +91,8 @@ dependencies {
 
     val composeBom = platform(libs.androidx.compose.bom)
 
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(composeBom)
     implementation(libs.androidx.activity.compose)

@@ -15,9 +15,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -44,6 +44,9 @@ internal fun TransactionScreen(viewModel: TransactionViewModel = viewModel()) {
                     state.transactionCount,
                 ),
             )
+            if (state.isLoading) {
+                Text(text = stringResource(id = R.string.transaction_loading))
+            }
             Transaction_Form(
                 state = state,
                 onEvent = viewModel::onEvent,
@@ -60,14 +63,18 @@ private fun Transaction_Form(
     onEvent: (MainUiEvent) -> Unit,
     onAddTransaction: () -> Unit,
 ) {
+    val isFormEnabled = state.isDatabaseReady && !state.isSaving
+
     OutlinedTextField(
         value = state.description,
         onValueChange = { onEvent(MainUiEvent.DescriptionChanged(it)) },
+        enabled = isFormEnabled,
         label = { Text(text = stringResource(id = R.string.transaction_description)) },
     )
     OutlinedTextField(
         value = state.amount,
         onValueChange = { onEvent(MainUiEvent.AmountChanged(it)) },
+        enabled = isFormEnabled,
         label = { Text(text = stringResource(id = R.string.transaction_amount)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
@@ -75,11 +82,13 @@ private fun Transaction_Form(
         FilterChip(
             selected = state.type == TransactionType.EXPENSE,
             onClick = { onEvent(MainUiEvent.TypeChanged(TransactionType.EXPENSE)) },
+            enabled = isFormEnabled,
             label = { Text(text = stringResource(id = R.string.transaction_expense)) },
         )
         FilterChip(
             selected = state.type == TransactionType.INCOME,
             onClick = { onEvent(MainUiEvent.TypeChanged(TransactionType.INCOME)) },
+            enabled = isFormEnabled,
             label = { Text(text = stringResource(id = R.string.transaction_income)) },
         )
     }
@@ -87,13 +96,17 @@ private fun Transaction_Form(
         val textId = when (error) {
             TransactionError.INVALID_INPUT -> R.string.transaction_invalid_input
             TransactionError.AMOUNT_TOO_LARGE -> R.string.transaction_amount_too_large
+            TransactionError.DATABASE_ERROR -> R.string.transaction_database_error
         }
         Text(
             text = stringResource(id = textId),
             color = MaterialTheme.colorScheme.error,
         )
     }
-    Button(onClick = onAddTransaction) {
+    Button(
+        onClick = onAddTransaction,
+        enabled = isFormEnabled,
+    ) {
         Text(text = stringResource(id = R.string.transaction_add))
     }
     if (state.transactions.isNotEmpty()) {
